@@ -1,5 +1,5 @@
 # Basic Starter Kit
 
-## Owner your name
+## Owner Don Welch (instructor)
 
-alter this statement to indicate the usage of this repository
+This repo will hold the course examples done in class. The information and examples in this repo can be used freely for resources.
