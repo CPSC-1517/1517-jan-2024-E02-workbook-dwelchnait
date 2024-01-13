@@ -17,6 +17,7 @@ namespace OOPsReview
         // other components of the class
         private string? _Title;
         private double _Years;
+        private SupervisoryLevel _Level;
 
         #endregion
         #region properties
@@ -37,7 +38,7 @@ namespace OOPsReview
 
         //properties will be the doorway into the data that is
         //  contained within the instance of the class
-        public string Title
+        public string? Title
         {
             //access the data inside the instance
             //return the data member
@@ -68,6 +69,10 @@ namespace OOPsReview
             get { return _Years; }
             set
             {
+                //this set is public by default
+                //the property can appear on the receiving side of an
+                //  assignment statement
+                //ex     myInstance.Years = .....
                 if (value < 0.0)
                 {
                     throw new ArgumentException($"Years {value} is less than 0. Years must be positive");
@@ -75,6 +80,47 @@ namespace OOPsReview
                 _Years = value;
             }
         }
+        
+        public SupervisoryLevel Level
+        {
+            get { return _Level; }
+            // a private set means that the property
+            //      can ONLY be set via code within
+            //      the constructor (at time of creation)
+            //      OR
+            //      via some of code such as a method or
+            //          another property
+            // you CANNOT have the property on the receiving side
+            //      of an assignment statement
+            //
+            // an advantage of doing this is increasing security
+            //      on the field as any change is under the
+            //      control of the class
+            //
+            private set
+            {
+                // you can validate that an acceptable integer value
+                //      was passed into this property
+                // syntax:  Enum.IsDefined(typeof(xxxx), value)
+                //              where xxx is the enum name
+                if (!Enum.IsDefined(typeof(SupervisoryLevel), value))
+                {
+                    throw new ArgumentException($"Supervisory Level is invalid {value}");
+                }
+                _Level = value;
+            }
+        }
+        // this property is an example of an auto-implemented property
+        // there is no validation within the property
+        // there is NO private data member for this property
+        //  the system will generate an internal storage area for the data
+        //      and handle the setting and getting from that storage
+        // auto-implemented properties can have either a public or private set
+        // using a public or private set is a design decision
+        // the ONLY way to access or set a value from/to the property is
+        //      via the property itself
+        public DateTime StartDate { get; private set; }
+
         
         #endregion
         #region constructors
