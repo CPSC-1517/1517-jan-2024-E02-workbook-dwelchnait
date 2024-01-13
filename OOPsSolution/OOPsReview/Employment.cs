@@ -121,9 +121,61 @@ namespace OOPsReview
         //      via the property itself
         public DateTime StartDate { get; private set; }
 
-        
+
         #endregion
         #region constructors
+        //Constructors
+
+        //the purpose of a constructor is to create an instance of your
+        //  class in a known state
+
+        //does a class need a constructor? NO
+        //  if a class does NOT have a constructor then the system will
+        //      create the instance and assign the system default value to data
+        //      member and/or auto implemented property
+        //  if you have no constructor the common phrase is "using a system constructor"
+
+        //IF YOU CODE A CONSTRUCTOR IN YOUR CLASS YOU ARE RESPONSIBLE FOR ANY AND ALL
+        //  CONSTRUCTORS FOR THE CLASS!!!
+
+        // default constructor
+        //you can apply your own literal values for your data memebers and/or auto-implemented
+        //  properties that differ from the system default values
+        //why?
+        //  you may have data that is validated and using the system default values that would
+        //  cause an exception
+
+        //constructors DO NOT have a return datatype in their header definition
+        //constructors CANNOT be called directly by an developer logic
+        //constructors are referenced (called) indirectly by using the "new" command
+
+        public Employment()
+        {
+            Title = "Unknown";
+            //by default the Level will get the 1st value of the Enum
+            Level = SupervisoryLevel.TeamMember;
+            StartDate = DateTime.Today;
+        }
+
+        //greedy constructor
+
+        //a greedy constructor is one that accepts a parameter list of values
+        //  to assign to your instance data on creation of the instance
+        //generally your greedy constructor constaints a parameter on the signature
+        //  for each data member/auto-implemented property in your class definition
+
+        //if you have any default values for your parameters, the default parameters
+        //  must appear AFTER the non-default parameters in the parameter list
+        //in this example we will default Years to 0
+
+        public Employment(string? title, SupervisoryLevel level, DateTime startdate,
+                            double years = 0.0)
+        {
+            Title = title;
+            Level = level;
+            StartDate = startdate;
+            Years = years;
+        }
         #endregion
         #region methods (aka behaviours)
         #endregion
