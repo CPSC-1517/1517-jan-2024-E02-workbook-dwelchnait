@@ -173,8 +173,30 @@ namespace OOPsReview
         {
             Title = title;
             Level = level;
+
+            //you can add logic to your constructor to ensure that the incoming value
+            //  is valid
+            //this is useful for auto-implemented properties
+            //this is useful for private sets which do not contain validation code
+
+            //in this example we will ensure that the startdate is not a day in the future
+            if(startdate >= DateTime.Today.AddDays(1))
+            {
+                throw new ArgumentException($"The start dagte {startdate} is in the future.");
+            }
             StartDate = startdate;
-            Years = years;
+
+            //one can do additional logic to adjust your starting values
+            //ensure that years is appropriate for the entered startdate
+            if (years > 0.0)
+            {
+                Years = years;
+            }
+            else
+            {
+                TimeSpan span = DateTime.Now - startdate;
+                Years = Math.Round((span.Days / 365.25), 1);
+            }
         }
         #endregion
         #region methods (aka behaviours)
