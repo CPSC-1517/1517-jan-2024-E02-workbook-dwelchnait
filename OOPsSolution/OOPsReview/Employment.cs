@@ -246,7 +246,7 @@ namespace OOPsReview
             }
             StartDate = startdate;
         }
-        public double UPdateCurrentEmploymentYearsExperience()
+        public double UpdateCurrentEmploymentYearsExperience()
         {
             TimeSpan span = DateTime.Now - StartDate;
             Years = Math.Round((span.Days / 365.25), 1);
