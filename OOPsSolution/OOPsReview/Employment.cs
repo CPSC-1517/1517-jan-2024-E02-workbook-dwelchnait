@@ -200,6 +200,58 @@ namespace OOPsReview
         }
         #endregion
         #region methods (aka behaviours)
+
+        //method syntax:  accesslevel [override][static] rdt methodname ([list of parameters])
+        //                  { ...... }
+
+        //you may wish to dump the contents of your instance in a string
+        //you can override the basic class method of ToString() and create your
+        //   own version of the string
+        public override string ToString()
+        {
+            //if this is a csv string then there could be a problem using the date
+            //you may wish it to be in a certain format
+            //ex Project Leader II,TeamLeader,Sep 11,2010,13.4 note that comma in the date will be a problem
+            //   to correct remove the , out of the date format
+            //   Project Leader II,TeamLeader,Sep 11 2010,13.4
+            return $"{Title},{Level},{StartDate.ToString("MMM dd yyyy")},{Years.ToString()}";
+        }
+
+        //we wish a method to alter a private set
+        //the property Level has a private set
+        //therefore the only ways to assign a value to the property
+        //  is via a) constructor, b) another property, or c) a method
+
+        //what about validation?
+        //validation can be done in multiple places
+        //  a) can it be done in this method?   Yes
+        //  b) can it be done within the property? Yes if the property if fully-implemented
+        public void SetEmploymentResponsibilityLevel(SupervisoryLevel level)
+        {
+            //property contains validation
+            Level = level;
+        }
+        //Property StartDate is auto-implementd
+        //Property StartDate has NO validation
+        //If you need to do any validation on the incoming value
+        //  you will need to do the validation in the method
+        //in this example we will ensure that the startdate is not a day in the future
+        //here we will need to duplicate the validation of the data using the same code
+        //  in the constructor
+        public void CorrectStartDate(DateTime startdate)
+        {
+            if (startdate >= DateTime.Today.AddDays(1))
+            {
+                throw new ArgumentException($"The start dagte {startdate} is in the future.");
+            }
+            StartDate = startdate;
+        }
+        public double UPdateCurrentEmploymentYearsExperience()
+        {
+            TimeSpan span = DateTime.Now - StartDate;
+            Years = Math.Round((span.Days / 365.25), 1);
+            return Years;
+        }
         #endregion
     }
 }
