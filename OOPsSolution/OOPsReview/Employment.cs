@@ -73,7 +73,8 @@ namespace OOPsReview
                 //the property can appear on the receiving side of an
                 //  assignment statement
                 //ex     myInstance.Years = .....
-                if (value < 0.0)
+                //if (value < 0.0)
+                if (!Utilities.IsPositive(value))
                 {
                     throw new ArgumentException($"Years {value} is less than 0. Years must be positive");
                 }
