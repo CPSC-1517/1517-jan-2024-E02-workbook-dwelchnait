@@ -92,6 +92,24 @@ namespace TDDUnitTestDemo
             sut.FirstName.Should().Be(expectedNewFirstName);
         }
 
+        [Fact]
+        public void Change_LastName()
+        {
+            //Arrange (setup area)
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            Person sut = new Person(FirstName, LastName, Address, null);
+
+            string expectedNewLastName = "Smith";
+
+            //Act
+            sut.LastName = "Smith";
+
+            //Assert
+            sut.LastName.Should().Be(expectedNewLastName);
+        }
         //this annotation will allow for you to specific multiple records of input
         //  to your tests
         //each record of input will execute the test again
@@ -158,6 +176,128 @@ namespace TDDUnitTestDemo
             action.Should().Throw<ArgumentNullException>();
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("    ")]
+        public void Throw_ArgumentNullException_Using_Changing_LastName(string lastname)
+        {
+            //Arrange (setup area)
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            Person sut = new Person(FirstName, LastName, Address, null);
+
+            //Act (the excution of your test)
+            // sut: subject under test
+            Action action = () => sut.LastName = lastname;
+
+            //Assert (the evulation of the results of the Act)
+            action.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Return_the_Full_Name()
+        {
+            //Arrange (setup area)
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            Person sut = new Person(FirstName, LastName, Address, null);
+            string expectedfullname = "Welch, Don";
+
+            //Act
+            string fullname = sut.FullName;
+
+            //Assert
+            fullname.Should().Be(expectedfullname);
+        }
+
+        [Fact]
+        public void Change_Full_Name_of_Person()
+        {
+            //Arrange
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            Person sut = new Person(FirstName, LastName, Address, null);
+            string expectedfullname = "Smith, Pat";
+
+            //Act
+            sut.ChangeFullName("Pat", "Smith");
+
+            //Assert
+            sut.FullName.Should().Be(expectedfullname);
+        }
+
+        [Theory]
+        [InlineData(null,"Smith")]
+        [InlineData("", "Smith")]
+        [InlineData("    ","Smith")]
+        [InlineData("Pat",null)]
+        [InlineData("Pat", "")]
+        [InlineData("Pat", "   ")]
+        public void Throw_ArgumentNullException_Using_Change_FullName(string firstname, string lastname)
+        {
+            //Arrange (setup area)
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            Person sut = new Person(FirstName, LastName, Address, null);
+
+            //Act (the excution of your test)
+            // sut: subject under test
+            Action action = () => sut.ChangeFullName(firstname, lastname);
+
+            //Assert (the evulation of the results of the Act)
+            action.Should().Throw<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void Add_First_New_Employment_Instance_to_Person()
+        {
+            //Arrange (setup area)
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            Person sut = new Person(FirstName, LastName, Address, null);
+
+            Employment newEmployment = new Employment("Boss", SupervisoryLevel.DepartmentHead,
+                                DateTime.Parse("2020/03/15"));
+
+            //Act 
+            sut.AddEmployment(newEmployment);
+
+            //Assert
+            sut.EmploymentPositions.Count.Should().Be(1);
+            sut.EmploymentPositions[0].Should().BeSameAs(newEmployment);
+        }
+
+        [Fact]
+        public void Throw_ArgumentNullExpection_On_Add_Employment_with_No_Parameter_Value()
+        {
+            //Arrange (setup area)
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            Person sut = new Person(FirstName, LastName, Address, null);
+
+
+
+            //Act 
+            Action action = () => sut.AddEmployment(null);
+
+            //Assert
+            action.Should().Throw<ArgumentNullException>().WithMessage("*missing*");
+        }
+      
+        
         private List<Employment> Get_Employment_List()
         {
             List<Employment> positions = new List<Employment>();
