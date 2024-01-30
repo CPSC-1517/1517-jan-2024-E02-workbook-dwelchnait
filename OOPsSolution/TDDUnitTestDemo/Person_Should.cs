@@ -296,8 +296,48 @@ namespace TDDUnitTestDemo
             //Assert
             action.Should().Throw<ArgumentNullException>().WithMessage("*missing*");
         }
-      
-        
+
+        [Fact]
+        public void Add_Another_Employment_to_History_Of_Positions()
+        {
+            //Arrange
+            string FirstName = "Don";
+            string LastName = "Welch";
+            ResidentAddress Address = new ResidentAddress(12, "Maple St.",
+                                        "St. Albert", "AB", "T8Y8U8");
+            
+            //build individual instance and save to separate variables
+            Employment emp1 = new Employment("PC II", SupervisoryLevel.TeamMember,
+                            DateTime.Parse("2013/03/16"), 3.5);
+            Employment emp2 = new Employment("PC III", SupervisoryLevel.TeamMember,
+                            DateTime.Parse("2016/09/16"), 1.5);
+            Employment emp3 = new Employment("TL I", SupervisoryLevel.TeamLeader,
+                            DateTime.Parse("2018/03/16"),4.0);
+            List<Employment> startingPositions = new List<Employment>()
+            { emp1, emp2, emp3 };
+
+            Person sut = new Person(FirstName, LastName, Address, startingPositions);
+
+
+            Employment newEmployment = new Employment("Boss", SupervisoryLevel.DepartmentHead,
+                                DateTime.Parse("2022/03/15"));
+
+            //create a second list using the already created instances of employment
+            //this will INSURE you have IDENTICAL GUID values for the objects in BOTH lists
+            List<Employment> expectedEmploymentHistory = new List<Employment>()
+            { emp1, emp2, emp3, newEmployment };
+
+            //Act 
+            sut.AddEmployment(newEmployment);
+
+            //Assert
+            sut.EmploymentPositions.Count.Should().Be(4);
+            sut.EmploymentPositions[3].Should().BeSameAs(newEmployment);
+
+            //check the contents of a collection to be IDENTICAL to another collection
+            //commpare two separate physical copies of the data together
+            sut.EmploymentPositions.Should().ContainInConsecutiveOrder(expectedEmploymentHistory);
+        }
         private List<Employment> Get_Employment_List()
         {
             List<Employment> positions = new List<Employment>();
