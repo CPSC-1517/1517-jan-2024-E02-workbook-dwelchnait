@@ -25,7 +25,89 @@
     <input type="text" placeholder="enter a string" 
         @bind="inputValue" />
 </label>
+<br/><br/>
+<button type="submit" id="forjavascript" name="csharpidentifier"
+        value="datavalueforbutton"
+        class="btn btn-outline-primary"
+        @onclick="OnClickMethodName"
+>
+    Press me
+</button>
+<br />
+<br />
+<button type="submit" 
+        class="btn btn-outline-success"
+        @onclick="OnClickHeadsOrTails">
+    Flip a coin
+</button>
+<!-- using the "at" symbol will allow me to exit the html world and enter
+      the C# world
+-->
+@if (!string.IsNullOrWhiteSpace(feedback))
+{
+    //as soon as I use the first html code I return to the html world from
+    // C#
+    <br/><br/>
+    <p>@feedback</p>
+}
+@*
 @code {
     // is the C# coding block for this component
-    string inputValue;
+
+    //blazor components can be code all in one physcial file
+    //  by including your C# code in the default coding block
+
+    //HOWEVER
+    //the coding block can be placed in its own physical file
+    //  and tied to the blazor html component
+    //the comment code in this block is moving to a secondary physical file
+    //  and comment out from this physical file
+    //the secondary file is often refferred to as the "code-behind"
+
+    //Can you have both code on this page within a coding block
+    //  AND in code-behind
+    //YES
+
+    //variables that are used on your html content
+    //   MUST be declared in this C# coding block
+
+
+    private string inputValue;  //this is tied to the input control via @bind
+    private string feedback; //this will be used to display information
+
+    //create a method that will be executed in response to pressing the
+    //   button that has on onclick parameter pointing to this method
+    private void OnClickMethodName()
+    {
+        //the data entered into the input control will be placed
+        //  for me into the local variable feedback
+        //this method will move the inputed value into my output variable
+        feedback = $"You entered >{inputValue}<";
+
+    }
+    private void OnClickHeadsOrTails()
+    {
+        Random rdn = new Random();
+        int flip = rdn.Next(1, 101);
+        if (flip % 2 == 0)
+        {
+            feedback = "Coin flipped Heads";
+        }
+        else
+        {
+            feedback = "Coin flipped Tails";
+        }
+
+    }
+
+    //there are special events already created for the blazor component
+    //the OnInitialized() method, you can alter the display of controls
+    //  and your variable by executing your own code
+    protected override void OnInitialized()
+    {
+        feedback = "OnInitialization code";
+        base.OnInitialized();
+    }
+
 }
+*@
