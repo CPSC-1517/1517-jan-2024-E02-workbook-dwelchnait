@@ -1,0 +1,66 @@
+﻿@page "/datacollection"
+@rendermode InteractiveServer
+<PageTitle>Data Collection</PageTitle>
+<h3>Data Entry Sample</h3>
+<h4>using File I/O for writing to csv file</h4>
+
+<div class="row">
+    <div class="offset-1 col-md-10">
+        <blockquote>
+            <p>This component will demonstrate how your page can handle validation of data input,
+                showing validation messages when you have a number of controls for data entry. This
+                component will validate the locate controls and create any validation messages for
+                invalid data. The messages can be collected using various techniques such as: List or
+                Dictionary.
+            </p>
+            <p>
+                This page will input data for an instance of the Employment class. This demo will
+                use the Employment class from the OOPs review. The SupervisoryLevel enum and Utilities
+                class will also be brought into this project. One could have included the entire
+                class library as part of this solution instead of bringing in individual classes.
+            </p>
+        </blockquote>
+    </div>
+</div>
+<br/><br/>
+<!-- area to feedback messages-->
+@if(feedback.Length > 0)
+{
+    <div class="alert alert-info">
+        <p>@feedback</p>
+    </div>
+}
+
+<!-- this area is to display a collection of messages that are within the
+    error messae container (Dictionary) collection
+    this could also simply use a List collection to do the same work
+-->
+@if(errors.Count > 0)
+{
+    <div class="alert alert-danger">
+        <p>Please fix the following issues:</p>
+        <ul>
+            @foreach(var error in errors)
+            {
+                <!-- due to the structure of a Dictionary entry
+                    there to two components: Key and Value
+                    Here we wish to just use the Value
+                    If this was a List collection there is
+                    one the string so NO Key or Value
+                -->
+                <li>@error.Value</li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    private Employment employment = new();
+    private string feedback = "";
+    //the first string represents the unique key to the dictionary entry
+    //the second string represents the context (value) associated with the key
+    private Dictionary<string, string> errors = new();
+
+    // this could also have been created by using a simple List collection
+    // private List<string> errors = new();
+}
