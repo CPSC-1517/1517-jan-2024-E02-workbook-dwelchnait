@@ -1,6 +1,7 @@
 ﻿@page "/datacollection"
 @rendermode InteractiveServer
 <PageTitle>Data Collection</PageTitle>
+@* @using OOPsReview *@
 <h3>Data Entry Sample</h3>
 <h4>using File I/O for writing to csv file</h4>
 
@@ -53,7 +54,81 @@
         </ul>
     </div>
 }
-
+<!-- create your input area-->
+<fieldset>
+    <legend>Employment Data</legend>
+    <div class="row">
+        <div class="col-md-2">
+            <label for="title">Position Title:</label>
+        </div>
+        <div class="col-md-1">
+            <input type="text" id="title" @bind="@employmentTitle" 
+                placeholder="enter position title"/>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-md-2">
+            <label for="slevel">Select Supervisory Level</label>
+        </div>
+        <div class="col-md-1">
+            <select @bind="@supervisoryLevel">
+                <option value="None">select ....</option>
+                @foreach (var item in Enum.GetValues(typeof(SupervisoryLevel)))
+                {
+                    <option value="@item">@item</option>
+                    <!-- short form if the value and display
+                          are the same
+                        <option>value to be displayed</option
+                    -->
+                }
+            </select>
+         </div>
+  </div>
+     <div class="row">
+        <div class="col-md-2">
+            <label for="startdate">Position Start Date</label>
+        </div>
+        <div class="col-md-1">
+            <div class="col-md-1">
+                <input type="date" id="startdate" @bind="@startDate"
+                       placeholder="position start date" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label for="empyears">Years in Position</label>
+        </div>
+        <div class="col-md-1">
+            <div class="col-md-1">
+                <input type="number" id="empyears" @bind="@empYears"
+                       placeholder="years (eg 3.5)"
+                       step="0.25" min="0"
+                       style="width:75px"/>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="submit" @onclick="Collect"
+                    class="btn btn-outline-primary">
+                Submit Employment
+            </button>
+            &nbsp;&nbsp
+             <button type="submit" @onclick="Clear"
+                    class="btn btn-outline-secondary">
+                Submit Employment
+            </button>
+            &nbsp;&nbsp;
+            <button type="submit" @onclick="Report"
+                    class="btn btn-outline-info">
+                Submit Employment
+            </button>
+            &nbsp;&nbsp;
+        </div>
+    </div>
+</fieldset>
 @code {
     private Employment employment = new();
     private string feedback = "";
@@ -63,4 +138,23 @@
 
     // this could also have been created by using a simple List collection
     // private List<string> errors = new();
+
+    //declaring my input control variable
+    private string employmentTitle = "";
+    private SupervisoryLevel supervisoryLevel;
+    private DateTime startDate;
+    private double empYears = 0;
+
+    public void Collect()
+    {
+        feedback = "inside collect";
+    }
+     public void Clear()
+    {
+        feedback = "inside clear";
+    }
+    public void Report()
+    {
+        feedback = "inside report";
+    }
 }
