@@ -118,43 +118,17 @@
             &nbsp;&nbsp
              <button type="submit" @onclick="Clear"
                     class="btn btn-outline-secondary">
-                Submit Employment
+                Clear
             </button>
             &nbsp;&nbsp;
-            <button type="submit" @onclick="Report"
+            <button type="submit" 
                     class="btn btn-outline-info">
-                Submit Employment
+                <a href="collectionreport">Employment Report</a>
             </button>
             &nbsp;&nbsp;
         </div>
     </div>
 </fieldset>
 @code {
-    private Employment employment = new();
-    private string feedback = "";
-    //the first string represents the unique key to the dictionary entry
-    //the second string represents the context (value) associated with the key
-    private Dictionary<string, string> errors = new();
-
-    // this could also have been created by using a simple List collection
-    // private List<string> errors = new();
-
-    //declaring my input control variable
-    private string employmentTitle = "";
-    private SupervisoryLevel supervisoryLevel;
-    private DateTime startDate;
-    private double empYears = 0;
-
-    public void Collect()
-    {
-        feedback = "inside collect";
-    }
-     public void Clear()
-    {
-        feedback = "inside clear";
-    }
-    public void Report()
-    {
-        feedback = "inside report";
-    }
+    
 }
