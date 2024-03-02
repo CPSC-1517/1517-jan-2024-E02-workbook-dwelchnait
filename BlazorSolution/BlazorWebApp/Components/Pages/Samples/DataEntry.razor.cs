@@ -101,7 +101,7 @@ namespace BlazorWebApp.Components.Pages.Samples
 
                     //WARNING: the folder slash for your path can be both a forward or back slash
                     //              on a PC BUT for an Apple machine, you must use the forwardslash (/)
-                    string csvFilePathName = $@"{webHostEnvironment.ContentRootPath}/Data/Emnployments.csv";
+                    string csvFilePathName = $@"{webHostEnvironment.ContentRootPath}/Data/Employments.csv";
 
                     //write the data from the employment instance (ToString) as a line to the csv file
                     //since the string does not contain a line feed character, we will need to concatenate

@@ -2,7 +2,68 @@
 @rendermode InteractiveServer
 <PageTitle>Collection Report</PageTitle>
 <h3>Employee Report</h3>
+<br />
+<br />
+<!-- area to feedback messages-->
+@if (feedback.Length > 0)
+{
+    <div class="alert alert-info">
+        <p>@feedback</p>
+    </div>
+}
 
+<!-- this area is to display a collection of messages that are within the
+    error message container (List of strings) collection
+-->
+@if (errors.Count > 0)
+{
+    <div class="alert alert-danger">
+        <p>Please fix the following issues:</p>
+        <ul>
+            @foreach (string error in errors)
+            {
+               
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+@if (employments == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    if (employments.Count == 0)
+    {
+        <p>There are currently no employment records on file.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Level</th>
+                    <th>Start Date</th>
+                    <th>Years</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var empRow in employments)
+                {
+                    <tr>
+                        <td>@empRow.Title</td>
+                        <td>@empRow.Level.ToString()</td>
+                        <td>@empRow.StartDate.ToShortDateString()</td>
+                        <td>@empRow.Years</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
 @code {
-
+   
 }
