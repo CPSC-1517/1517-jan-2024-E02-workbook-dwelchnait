@@ -31,12 +31,12 @@ namespace OOPsReview
         //    }
         //    return valid;
         //}
-        public static bool IsPositive(double value) => value < 0.0;
+        public static bool IsPositive(double value) => value >= 0.0;
 
         //overloaded methods
         //an overloaded methods has the same methodname but a different list of parameters
-        public static bool IsPositive(int value) => value < 0.0;
-        public static bool IsPositive(decimal value) => value < 0.0m;
+        public static bool IsPositive(int value) => value >= 0.0;
+        public static bool IsPositive(decimal value) => value >= 0.0m;
 
     }
 }
