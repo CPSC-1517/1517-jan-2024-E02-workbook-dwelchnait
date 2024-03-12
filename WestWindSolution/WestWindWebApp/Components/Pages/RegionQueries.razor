@@ -1,0 +1,111 @@
+﻿@page "/simplequery"
+<PageTitle>Simple Query</PageTitle>
+@rendermode InteractiveServer
+@using WestWindSystem.Entities;
+@using WestWindSystem.BLL;
+
+<h3>Simple Queries</h3>
+<h4>Queries against Region Table</h4>
+<br />
+<br />
+
+<!-- area to feedback messages-->
+@if (feedback.Length > 0)
+{
+    <div class="alert alert-info">
+        <p>@feedback</p>
+    </div>
+}
+<!-- area to error messages-->
+@if (errors.Count > 0)
+{
+    <div class="alert alert-danger">
+        <p>Please fix the following issues:</p>
+        <ul>
+            @foreach (var error in errors)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+<!-- form area -->
+<div class="row">
+    <div class="col-md-6">
+        <label for="regionid">Enter a regionid:</label>
+        <input id="regionid" type="number" @bind="regionidarg"
+            placeholder="region number" />
+        <button type="submit" @onclick="GetByInput">Fetch By ID</button>
+        <br /><br/>
+        <label for="regionlist">Enter a regionid:</label>
+        <select @bind="regionselectarg">
+            <option value="0">select ...</option>
+            @foreach (var item in regionList)
+            {
+                <option value="@item.RegionID">@item.RegionDescription</option>
+            }
+        </select>
+        <button type="submit" @onclick="GetBySelection">Fetch By Selection</button>
+    </div>
+    <div class="col-md-6">
+        @if(dataInfo != null)
+        {
+           <p>Region ID: @dataInfo.RegionID</p>
+           <p>Description: @dataInfo.RegionDescription</p>
+        }
+        else
+        {
+            <p>No data found for requested query</p>
+        }
+    </div>
+</div>
+@code {
+    private string feedback = "";
+    private List<string> errors = new List<string>();
+    private int regionidarg;
+    private int regionselectarg;
+    private List<Region> regionList = new List<Region>();
+    private Region dataInfo;
+
+    [Inject]
+    public RegionServices _regionServices { get; set; }
+
+    protected override void OnInitialized()
+    {
+        regionList = _regionServices.Region_Get();
+        base.OnInitialized();
+    }
+
+    private void GetByInput()
+    {
+        //clear out any old messages
+        feedback = "";
+        errors.Clear();
+        dataInfo = null;
+        //do primitive validation
+        if (regionidarg <= 0)
+        {
+            errors.Add("Region id must be a number greater than 0");
+        }
+        else
+        {
+            dataInfo = _regionServices.Region_GetByID(regionidarg);
+        }
+    }
+    private void GetBySelection()
+    {
+        //clear out any old messages
+        feedback = "";
+        errors.Clear();
+        dataInfo = null;
+        //do primitive validation
+        if (regionselectarg == 0)
+        {
+            errors.Add("Select a region to query");
+        }
+        else
+        {
+            dataInfo = _regionServices.Region_GetByID(regionselectarg);
+        }
+    }
+}
