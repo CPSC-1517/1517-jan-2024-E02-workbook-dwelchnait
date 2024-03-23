@@ -26,5 +26,22 @@ namespace WestWindSystem.BLL
         }
         #endregion
 
+        //Services
+        #region Queries
+        public List<Product> Product_GetByCategoryID(int categoryid)
+        {
+            IEnumerable<Product> info = _context.Products
+                                        .Where(p => p.CategoryID == categoryid)
+                                        .OrderBy(p => p.ProductName);
+            return info.ToList(); //converts IEnumerable datatype to List<T> datatype
+        }
+        public List<Product> Product_GetByName(string partialproductname)
+        {
+            IEnumerable<Product> info = _context.Products
+                                        .Where(p => p.ProductName.Contains(partialproductname))
+                                        .OrderBy(p => p.ProductName);
+            return info.ToList(); //converts IEnumerable datatype to List<T> datatype
+        }
+        #endregion
     }
 }
