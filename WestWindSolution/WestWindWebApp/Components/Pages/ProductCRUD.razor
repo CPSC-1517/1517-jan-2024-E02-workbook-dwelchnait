@@ -1,0 +1,8 @@
+﻿@page "/productcrud/{productid:int?}"
+<PageTitle>Product CRUD</PageTitle>
+<h3>Product Maintenance</h3>
+<p>You passed the parameter &gt;@productid&lt;</p>
+@code {
+    [Parameter]
+    public int productid{ get; set; }
+}
