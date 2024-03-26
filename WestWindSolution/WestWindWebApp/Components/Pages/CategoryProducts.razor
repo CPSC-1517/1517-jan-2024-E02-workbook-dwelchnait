@@ -3,6 +3,8 @@
 @rendermode InteractiveServer
 @using WestWindSystem.Entities;
 @using WestWindSystem.BLL;
+
+
 <h3>Category Products</h3>
 <!-- area to feedback messages-->
 @if (feedback.Length > 0)
@@ -39,14 +41,21 @@
         &nbsp;&nbsp;
         <button type="submit" class="btn btn-outline-primary rounded-pill"
                     @onclick="FetchProducts">Fetch Products</button>
+
     </div>
 </div>
-
+<br/><br/>
 <div class="row">
     @if (productList.Count > 0)
     {
         //create a table construct
-        <div class="offset-3 col-md-6">
+        //to add a bootstrap scroll to the table you will need
+        // the following class attribute and style attribute
+        //   overflow-scroll
+        // this class attribute will kick in if your table
+        //   is greater than a specified height
+        //  style="height:xxxpx;"
+        <div class="offset-2 col-md-8 overflow-scroll" style="height:450px;">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -62,7 +71,7 @@
                         <tr>
                             <td>@item.ProductName</td>
                             <td>@item.QuantityPerUnit</td>
-                            <td>@* @item.Supplier.ContactName *@</td>
+                            <td> @item.Supplier.CompanyName</td>
                             <td>@(item.Discontinued ? "Yes" : " ")</td>
                         </tr>
                     }
@@ -105,10 +114,15 @@
     private ProductServices _productServices { get; set; }
     private List<Product> productList { get; set; } = new List<Product>();
 
+    [Inject]
+    private SupplierServices _suppilerServices { get; set; }
+    private List<Supplier> supplierList { get; set; } 
+
     protected override void OnInitialized()
     {
         //retrieve the list of category via the CategoryServices in your BLL
         categoryList = _categoryServices.Category_GetList();
+        supplierList = _suppilerServices.Supplier_GetList();
         base.OnInitialized();
     }
 
@@ -127,4 +141,6 @@
             productList = _productServices.Product_GetByCategoryID(CategoryId);
         }
     }
+
+ 
 }
